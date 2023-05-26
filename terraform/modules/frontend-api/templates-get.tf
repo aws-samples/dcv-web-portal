@@ -1,0 +1,44 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+
+resource "aws_api_gateway_method" "templates_get" {
+  rest_api_id   = aws_api_gateway_rest_api.api.id
+  resource_id   = aws_api_gateway_resource.templates.id
+  authorization = "COGNITO_USER_POOLS"
+  authorizer_id = aws_api_gateway_authorizer.api_authorizer.id
+  http_method   = "GET"
+}
+
+resource "aws_api_gateway_method_response" "templates_get_200" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.templates.id
+  http_method = aws_api_gateway_method.templates_get.http_method
+  status_code = "200"
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = true
+    "method.response.header.Access-Control-Allow-Methods" = true
+    "method.response.header.Access-Control-Allow-Origin"  = true
+  }
+}
+
+resource "aws_api_gateway_integration" "templates_get_integration" {
+  rest_api_id             = aws_api_gateway_rest_api.api.id
+  resource_id             = aws_api_gateway_resource.templates.id
+  http_method             = aws_api_gateway_method.templates_get.http_method
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.templates_function.invoke_arn
+  credentials             = aws_iam_role.api.arn
+}
+
+resource "aws_api_gateway_integration_response" "templates_integration_200" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_integration.templates_get_integration.resource_id
+  http_method = aws_api_gateway_integration.templates_get_integration.http_method
+  status_code = aws_api_gateway_method_response.templates_get_200.status_code
+
+  response_templates = {
+    "application/json" = "$input.json('$')"
+  }
+}

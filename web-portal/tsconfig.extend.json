@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "dcv": ["./lib/dcv/dcv.js"],
+      "dcv-ui": ["./lib/dcv-ui/dcv-ui.js"]
+    }
+  }
+}
