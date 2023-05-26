@@ -1,4 +1,4 @@
-# Highly Customisable VDI Solution
+# Customisable DCV-based VDI Solution
 
 Current version: **0.2.0**
 
