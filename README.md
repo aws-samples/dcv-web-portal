@@ -161,6 +161,39 @@ $ ./deploy.sh -s frontend_bucket -d frontend_distribution_id
 
 ## 📌 Usage
 
+### ⚠️ Before starting
+
+Before starting any session from the web portal, please make sure all the images are properly built in EC2 Image Builder. 
+You can use the following command (make sure to replace the REGION, ACCOUNT, PROJECT and ENVIRONMENT with the proper values):
+
+```shell
+aws imagebuilder get-image --image-build-version-arn arn:aws:imagebuilder:REGION:ACCOUNT:image/PROJECT-ENVIRONMENT-connection-gateway/1.0.0/1 --query '[image.state.status, image.outputResources.amis[0].image]'
+#exemple: aws imagebuilder get-image --image-build-version-arn arn:aws:imagebuilder:eu-west-1:1234567890:image/dcv-portal-dev-connection-gateway/1.0.0/1 --query '[image.state.status, image.outputResources.amis[0].image]'
+```
+
+You should get something like:
+```
+[
+    "AVAILABLE",
+    "ami-06e24532059165874"
+]
+```
+
+Also verify the running connection gateway (called "[NICE DCV] Connection Gateway") is running with the good AMI. Use the following command (make sure to replace `IMAGE_ID` with the ami previously retrieved):
+
+```shell
+aws ec2 describe-instances --filters "Name=tag:Name,Values='[NICE DCV] Connection Gateway'" "Name=image-id,Values=IMAGE_ID" "Name=instance-state-name,Values=running"
+```
+
+Verify Linux and Windows images are also ready (they should be marked as `AVAILABLE`):
+```shell
+aws imagebuilder get-image --image-build-version-arn arn:aws:imagebuilder:REGION:ACCOUNT:image/PROJECT-ENVIRONMENT-amazon-linux-2-vdi/1.0.0/1 --query '[image.state.status, image.outputResources.amis[0].image]'
+aws imagebuilder get-image --image-build-version-arn arn:aws:imagebuilder:REGION:ACCOUNT:image/PROJECT-ENVIRONMENT-windows-2022-vdi/1.0.0/1 --query '[image.state.status, image.outputResources.amis[0].image]'
+```
+
+
+
+
 ### User management
 
 This sample comes with Cognito to authenticate users on the web portal. You must create the users in Cognito, so they can connect to the frontend.
