@@ -206,7 +206,7 @@ When creating DCV sessions, a user is created for the instance with the password
 
 In order to create an Admin user, you must add the Cognito user to the Cognito group 'admin'.
 
-In a production environment, you should probably use a directory (eg. AD or equivalent) to connect to the instances.
+In a production environment, you should use a directory (eg. AD or equivalent) to connect to the instances.
 
 
 ### Creating / Changing the templates for the workstations
