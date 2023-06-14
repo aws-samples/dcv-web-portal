@@ -4,12 +4,12 @@ import secrets
 import string
 
 client = boto3.client('secretsmanager')
-alphabet = string.ascii_letters + string.digits + string.punctuation
+alphabet = string.ascii_letters + string.digits
 
 def lambda_handler(event, context):
     print(event)
 
-    password = ''.join(secrets.choice(alphabet) for i in range(8))
+    password = ''.join(secrets.choice(alphabet) for i in range(10))
     print(password)
 
     try:
