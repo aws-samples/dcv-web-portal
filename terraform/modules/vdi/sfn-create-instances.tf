@@ -336,11 +336,11 @@ resource "aws_sfn_state_machine" "preallocate_instance" {
                 "Or": [
                   {
                     "Variable": "$.instance.instanceStatus",
-                    "StringEquals": "imparied"
+                    "StringEquals": "impaired"
                   },
                   {
                     "Variable": "$.instance.systemStatus",
-                    "StringEquals": "imparied"
+                    "StringEquals": "impaired"
                   }
                 ],
                 "Next": "Wait 45s"
