@@ -1,3 +1,5 @@
+> :warning: If you are looking for a VDI solution based on DCV, we strongly recommend to go with _[Research and Engineering Studio on AWS](https://aws.amazon.com/hpc/res/)_, which is a solution officially maintained and supported by AWS, and providing much more features than this sample (SAML, persistence of the workstations, file sharing, ...). 
+
 # Customisable DCV-based VDI Solution
 
 Current version: **0.2.0**
